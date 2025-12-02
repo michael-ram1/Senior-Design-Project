@@ -52,9 +52,25 @@ export const LightingProvider = ({ children }: { children: ReactNode }) => {
     setHistory((prev) => [entry, ...prev]); // newest first
   };
 
+  const sendSignalToBackend = async (nextState: boolean) => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/light", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state: nextState ? "on" : "off" }),
+      });
+
+      console.log("Backend response:", await response.json());
+    } catch (err) {
+      console.error("Failed to send signal:", err);
+    }
+  };
+
+
   const toggleLight = () => {
     setIsOn((prev) => {
       const next = !prev;
+      sendSignalToBackend(next);
       addHistoryEntry(next);
       return next;
     });
