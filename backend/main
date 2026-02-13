@@ -15,4 +15,3 @@ def control_light():
     return jsonify({"status": "ok", "received": state})
 
 app.run(host="0.0.0.0", port=5000)
-
