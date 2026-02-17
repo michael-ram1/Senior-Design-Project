@@ -1,3 +1,5 @@
+import os
+
 from fastapi import APIRouter, HTTPException, Query
 
 from app.models.light import (
@@ -6,10 +8,15 @@ from app.models.light import (
     ScheduleLightRequest,
     ToggleLightRequest,
 )
-from app.services.light_service import LightService, SQLiteLightRepository
+from app.services.light_service import LightService, MongoLightRepository, SQLiteLightRepository
 
 router = APIRouter(prefix="/lights", tags=["lights"])
-service = LightService(repository=SQLiteLightRepository())
+
+# Use MongoDB when MONGODB_URI is set; otherwise keep SQLite placeholder.
+if os.getenv("MONGODB_URI"):
+    service = LightService(repository=MongoLightRepository())
+else:
+    service = LightService(repository=SQLiteLightRepository())
 
 
 @router.get("/status", response_model=LightStatusResponse)
