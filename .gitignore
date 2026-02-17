@@ -16,7 +16,6 @@ frontend/.expo/
 
 # Configuration files
 .pylintrc
-.env.example
 
 # Environment variables
 .env
