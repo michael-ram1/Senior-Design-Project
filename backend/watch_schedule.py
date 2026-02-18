@@ -5,16 +5,18 @@ Usage: python watch_schedule.py [restaurant_id]
 Defaults to restaurant_id=1 if not specified.
 """
 
-import time
+from dotenv import load_dotenv
 import os
 import sys
+import time
 from pathlib import Path
-from dotenv import load_dotenv
-from app.database.mongo import get_mongo_db
 
-# Load environment variables from .env file using absolute path
+# Load .env FIRST, before any other imports that need it
 env_path = Path(__file__).parent / '.env'
 load_dotenv(dotenv_path=env_path)
+
+# Now import modules that need environment variables
+from app.database.mongo import get_mongo_db
 
 def clear_screen():
     """Clear terminal screen (works on Windows/Mac/Linux)"""
