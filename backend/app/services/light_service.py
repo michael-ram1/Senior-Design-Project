@@ -377,7 +377,7 @@ class MongoLightRepository(LightRepository):
             schedule_data["_id"] = str(result.inserted_id)
         
         # Add to history
-        self.add_history(restaurant_id, f"schedule_updated")
+        self.add_history(restaurant_id, "schedule_updated")
         
         # Convert back to response format
         return self.get_full_schedule(restaurant_id)
