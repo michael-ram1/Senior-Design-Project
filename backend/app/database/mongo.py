@@ -9,10 +9,6 @@ from typing import TYPE_CHECKING
 from pymongo import MongoClient
 from pymongo.database import Database
 
-if TYPE_CHECKING:
-    pass
-
-# e.g. mongodb+srv://user:pass@cluster0.xxxxx.mongodb.net/SD_IoT
 MONGODB_URI = os.getenv("MONGODB_URI", "")
 MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "SD_IoT")
 
@@ -24,7 +20,14 @@ def get_mongo_client() -> MongoClient:
         raise RuntimeError("MONGODB_URI is not set; add it to .env to use MongoDB.")
     global _client
     if _client is None:
-        _client = MongoClient(MONGODB_URI)
+        _client = MongoClient(
+        MONGODB_URI,
+        maxPoolSize=10,          
+        minPoolSize=1,           
+        maxIdleTimeMS=60000,     
+        retryWrites=True,          
+        retryReads=True          
+        )
     return _client
 
 
