@@ -4,14 +4,17 @@ Watch schedule changes in real-time for a specific restaurant.
 Usage: python watch_schedule.py [restaurant_id]
 Defaults to restaurant_id=1 if not specified.
 """
+
 import time
 import os
 import sys
+from pathlib import Path
 from dotenv import load_dotenv
 from app.database.mongo import get_mongo_db
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file using absolute path
+env_path = Path(__file__).parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 def clear_screen():
     """Clear terminal screen (works on Windows/Mac/Linux)"""
@@ -35,7 +38,8 @@ def main():
         db = get_mongo_db()
     except RuntimeError as e:
         print(f"Error: {e}")
-        print("\nMake sure you have a .env file in the backend directory with:")
+        print(f"\nLooking for .env at: {env_path}")
+        print("Make sure you have a .env file in the backend directory with:")
         print("MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/SD_IoT")
         print("MONGODB_DB_NAME=SD_IoT")
         sys.exit(1)
