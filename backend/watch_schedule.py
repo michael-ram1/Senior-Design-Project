@@ -138,7 +138,7 @@ def main():
             
             # Footer with timestamp
             print("\n" + "=" * 60)
-            print(f"Refreshing every 2 seconds | {time.strftime('%Y-%m-%d %H:%M:%S')}")
+            print(f"Refreshing every 10 seconds | {time.strftime('%Y-%m-%d %H:%M:%S')}")
             print("=" * 60)
             
             time.sleep(10)
